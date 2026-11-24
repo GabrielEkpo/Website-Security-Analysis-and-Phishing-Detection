@@ -1,0 +1,1 @@
+"""Isolated candidate-model experiment; not imported by the application."""

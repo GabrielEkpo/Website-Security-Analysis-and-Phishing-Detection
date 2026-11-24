@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+.env
+.vercel/
+phiusiil+phishing+url+dataset/*.csv
+
+# Experimental files not required for deployment
+security_analysis-main/experiments/model_invariance_candidate/candidate_model.joblib
+security_analysis-main/experiments/model_invariance_candidate/heldout_test_set.csv
+
+*.pyc

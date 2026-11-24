@@ -1,0 +1,792 @@
+{
+  "candidate_design": {
+    "candidate_canonicalization": "lowercase IDNA host, strip final dot, collapse root slash, remove http:80/https:443; preserve scheme, non-root path, query, fragment, non-default port, and www",
+    "character_branch": "TfidfVectorizer(analyzer='char', ngram_range=(2, 5), min_df=1, max_features=12000)",
+    "classifier": "LogisticRegression(solver='liblinear', max_iter=200, random_state=42)",
+    "fit_scope": "training hostname groups only",
+    "hyperparameter_tuning": false,
+    "nigerian_data_augmentation": false,
+    "structured_branch": "extract_url_features -> DictVectorizer -> log1p -> StandardScaler(with_mean=False)"
+  },
+  "dataset": {
+    "expected_class_counts": {
+      "legitimate": 134850,
+      "phishing": 100945
+    },
+    "overlapping_nigerian_host_groups": {
+      "abu.edu.ng": 1,
+      "accessbankplc.com": 1,
+      "cbn.gov.ng": 1,
+      "ui.edu.ng": 1,
+      "unn.edu.ng": 1,
+      "yabatech.edu.ng": 1,
+      "zenithbank.com": 1
+    },
+    "raw_label_counts": {
+      "0": 100945,
+      "1": 134850
+    },
+    "rows_available_for_domain_split": 235788,
+    "rows_reserved_out_for_nigerian_host_overlap": 7,
+    "source_rows": 235795
+  },
+  "experiment": "isolated_url_invariance_candidate",
+  "formatting_pair_consistency": {
+    "examples": {
+      "027776.com": {
+        "base": {
+          "candidate_probability": 0.9998826243259792,
+          "production_probability": 0.123317327447913,
+          "url": "https://027776.com"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9998826243259792,
+          "production_probability": 0.6938482404762792,
+          "url": "https://027776.com:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9998826243259792,
+          "production_probability": 0.9992937436154519,
+          "url": "https://027776.com/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9998826243259792,
+          "production_probability": 0.21922290444537984,
+          "url": "https://027776.com."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9998826243259792,
+          "production_probability": 0.123317327447913,
+          "url": "https://027776.COM"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.2723134151904207,
+          "production_probability": 0.123317327447913,
+          "url": "https://www.027776.com"
+        }
+      },
+      "045zov0vxv.zcyrek.com.pl": {
+        "base": {
+          "candidate_probability": 0.9832382048171187,
+          "production_probability": 0.5783969718620153,
+          "url": "https://045zov0vxv.zcyrek.com.pl"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9832382048171187,
+          "production_probability": 0.9536861939604272,
+          "url": "https://045zov0vxv.zcyrek.com.pl:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9832382048171187,
+          "production_probability": 0.9999213855613543,
+          "url": "https://045zov0vxv.zcyrek.com.pl/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9832382048171187,
+          "production_probability": 0.8873212425710536,
+          "url": "https://045zov0vxv.zcyrek.com.pl."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9832382048171187,
+          "production_probability": 0.5783969718620153,
+          "url": "https://045ZOV0VXV.ZCYREK.COM.PL"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.6002232771935307,
+          "production_probability": 0.5783969718620153,
+          "url": "https://www.045zov0vxv.zcyrek.com.pl"
+        }
+      },
+      "0pensea123.com": {
+        "base": {
+          "candidate_probability": 0.9982578750144722,
+          "production_probability": 0.04836822865995119,
+          "url": "https://0pensea123.com"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9982578750144722,
+          "production_probability": 0.46982113186105495,
+          "url": "https://0pensea123.com:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9982578750144722,
+          "production_probability": 0.9981530849998521,
+          "url": "https://0pensea123.com/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9982578750144722,
+          "production_probability": 0.11052260306918547,
+          "url": "https://0pensea123.com."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9982578750144722,
+          "production_probability": 0.04836822865995119,
+          "url": "https://0PENSEA123.COM"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.1503785426332513,
+          "production_probability": 0.04836822865995119,
+          "url": "https://www.0pensea123.com"
+        }
+      },
+      "101x.com": {
+        "base": {
+          "candidate_probability": 0.9980413603091247,
+          "production_probability": 0.010561182941914871,
+          "url": "https://101x.com"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9980413603091247,
+          "production_probability": 0.19345552450052836,
+          "url": "https://101x.com:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9980413603091247,
+          "production_probability": 0.9916366100876414,
+          "url": "https://101x.com/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9980413603091247,
+          "production_probability": 0.02258599285037187,
+          "url": "https://101x.com."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9980413603091247,
+          "production_probability": 0.010561182941914871,
+          "url": "https://101X.COM"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.01298401829052132,
+          "production_probability": 0.010561182941914871,
+          "url": "https://www.101x.com"
+        }
+      },
+      "104.168.169.167": {
+        "base": {
+          "candidate_probability": 0.9999536076581719,
+          "production_probability": 0.8790226243330012,
+          "url": "https://104.168.169.167"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9999536076581719,
+          "production_probability": 0.9884480500024322,
+          "url": "https://104.168.169.167:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9999536076581719,
+          "production_probability": 0.9999832280286104,
+          "url": "https://104.168.169.167/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9999536076581719,
+          "production_probability": 0.9633479380823881,
+          "url": "https://104.168.169.167."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9999536076581719,
+          "production_probability": 0.8790226243330012,
+          "url": "https://104.168.169.167"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.9945044546928362,
+          "production_probability": 0.8790226243330012,
+          "url": "https://www.104.168.169.167"
+        }
+      },
+      "123test.com.xsph.ru": {
+        "base": {
+          "candidate_probability": 0.9579628250608628,
+          "production_probability": 0.2642265907407058,
+          "url": "https://123test.com.xsph.ru"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9579628250608628,
+          "production_probability": 0.8560522790344892,
+          "url": "https://123test.com.xsph.ru:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9579628250608628,
+          "production_probability": 0.9997067041760711,
+          "url": "https://123test.com.xsph.ru/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9579628250608628,
+          "production_probability": 0.6263833069225206,
+          "url": "https://123test.com.xsph.ru."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9579628250608628,
+          "production_probability": 0.2642265907407058,
+          "url": "https://123TEST.COM.XSPH.RU"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.2783659730806159,
+          "production_probability": 0.2642265907407058,
+          "url": "https://www.123test.com.xsph.ru"
+        }
+      },
+      "157arw.ang.af.mil": {
+        "base": {
+          "candidate_probability": 0.8440510631020939,
+          "production_probability": 0.06663233263195766,
+          "url": "https://157arw.ang.af.mil"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.8440510631020939,
+          "production_probability": 0.5703899783613323,
+          "url": "https://157arw.ang.af.mil:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.8440510631020939,
+          "production_probability": 0.9985438283015808,
+          "url": "https://157arw.ang.af.mil/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.8440510631020939,
+          "production_probability": 0.24291859214108552,
+          "url": "https://157arw.ang.af.mil."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.8440510631020939,
+          "production_probability": 0.06663233263195766,
+          "url": "https://157ARW.ANG.AF.MIL"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.030860697843375445,
+          "production_probability": 0.06663233263195766,
+          "url": "https://www.157arw.ang.af.mil"
+        }
+      },
+      "1683909478292317372642548940609.cfd": {
+        "base": {
+          "candidate_probability": 0.9999999231044093,
+          "production_probability": 0.9815148447716848,
+          "url": "https://1683909478292317372642548940609.cfd"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9999999231044093,
+          "production_probability": 0.9979607928271623,
+          "url": "https://1683909478292317372642548940609.cfd:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9999999231044093,
+          "production_probability": 0.9999977949011688,
+          "url": "https://1683909478292317372642548940609.cfd/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9999999231044093,
+          "production_probability": 0.9954028331972213,
+          "url": "https://1683909478292317372642548940609.cfd."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9999999231044093,
+          "production_probability": 0.9815148447716848,
+          "url": "https://1683909478292317372642548940609.CFD"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.9999027789974114,
+          "production_probability": 0.9815148447716848,
+          "url": "https://www.1683909478292317372642548940609.cfd"
+        }
+      },
+      "177fw.ang.af.mil": {
+        "base": {
+          "candidate_probability": 0.8562939969643044,
+          "production_probability": 0.0701282913144427,
+          "url": "https://177fw.ang.af.mil"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.8562939969643044,
+          "production_probability": 0.58678411979843,
+          "url": "https://177fw.ang.af.mil:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.8562939969643044,
+          "production_probability": 0.9986145684849796,
+          "url": "https://177fw.ang.af.mil/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.8562939969643044,
+          "production_probability": 0.25202381205975527,
+          "url": "https://177fw.ang.af.mil."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.8562939969643044,
+          "production_probability": 0.0701282913144427,
+          "url": "https://177FW.ANG.AF.MIL"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.03269333457117814,
+          "production_probability": 0.0701282913144427,
+          "url": "https://www.177fw.ang.af.mil"
+        }
+      },
+      "1ameem.com": {
+        "base": {
+          "candidate_probability": 0.9877276249321776,
+          "production_probability": 0.0064271983014236676,
+          "url": "https://1ameem.com"
+        },
+        "explicit_default_port_443": {
+          "candidate_probability": 0.9877276249321776,
+          "production_probability": 0.13693246867827355,
+          "url": "https://1ameem.com:443"
+        },
+        "root_slash": {
+          "candidate_probability": 0.9877276249321776,
+          "production_probability": 0.9869489268436035,
+          "url": "https://1ameem.com/"
+        },
+        "trailing_hostname_dot": {
+          "candidate_probability": 0.9877276249321776,
+          "production_probability": 0.014628783689465874,
+          "url": "https://1ameem.com."
+        },
+        "uppercase_hostname": {
+          "candidate_probability": 0.9877276249321776,
+          "production_probability": 0.0064271983014236676,
+          "url": "https://1AMEEM.COM"
+        },
+        "www_host_variant_not_assumed_equivalent": {
+          "candidate_probability": 0.00424258724687779,
+          "production_probability": 0.0064271983014236676,
+          "url": "https://www.1ameem.com"
+        }
+      }
+    },
+    "expected_equivalent_variants": [
+      "uppercase_hostname",
+      "trailing_hostname_dot",
+      "root_slash",
+      "explicit_default_port_443"
+    ],
+    "models": {
+      "candidate": {
+        "all_equivalent_forms_consistent": true,
+        "max_probability_range_across_equivalent_forms": 0.0,
+        "pair_results": {
+          "explicit_default_port_443": {
+            "consistency_rate": 1.0,
+            "exact_probability_matches": 2000,
+            "max_absolute_probability_delta": 0.0,
+            "mean_absolute_probability_delta": 0.0,
+            "tested_pairs": 2000
+          },
+          "root_slash": {
+            "consistency_rate": 1.0,
+            "exact_probability_matches": 2000,
+            "max_absolute_probability_delta": 0.0,
+            "mean_absolute_probability_delta": 0.0,
+            "tested_pairs": 2000
+          },
+          "trailing_hostname_dot": {
+            "consistency_rate": 1.0,
+            "exact_probability_matches": 2000,
+            "max_absolute_probability_delta": 0.0,
+            "mean_absolute_probability_delta": 0.0,
+            "tested_pairs": 2000
+          },
+          "uppercase_hostname": {
+            "consistency_rate": 1.0,
+            "exact_probability_matches": 2000,
+            "max_absolute_probability_delta": 0.0,
+            "mean_absolute_probability_delta": 0.0,
+            "tested_pairs": 2000
+          }
+        },
+        "www_variant_max_absolute_delta_not_an_invariance_test": 0.9978011728210703,
+        "www_variant_mean_absolute_delta_not_an_invariance_test": 0.762186905842329
+      },
+      "production": {
+        "all_equivalent_forms_consistent": false,
+        "max_probability_range_across_equivalent_forms": 0.9818867029281376,
+        "pair_results": {
+          "explicit_default_port_443": {
+            "consistency_rate": 0.0,
+            "exact_probability_matches": 0,
+            "max_absolute_probability_delta": 0.6444395966268973,
+            "mean_absolute_probability_delta": 0.1568598392620943,
+            "tested_pairs": 2000
+          },
+          "root_slash": {
+            "consistency_rate": 0.0,
+            "exact_probability_matches": 0,
+            "max_absolute_probability_delta": 0.9818867029281376,
+            "mean_absolute_probability_delta": 0.848636010338988,
+            "tested_pairs": 2000
+          },
+          "trailing_hostname_dot": {
+            "consistency_rate": 0.0,
+            "exact_probability_matches": 0,
+            "max_absolute_probability_delta": 0.40181110910568657,
+            "mean_absolute_probability_delta": 0.046080011574065355,
+            "tested_pairs": 2000
+          },
+          "uppercase_hostname": {
+            "consistency_rate": 1.0,
+            "exact_probability_matches": 2000,
+            "max_absolute_probability_delta": 0.0,
+            "mean_absolute_probability_delta": 0.0,
+            "tested_pairs": 2000
+          }
+        },
+        "www_variant_max_absolute_delta_not_an_invariance_test": 0.0,
+        "www_variant_mean_absolute_delta_not_an_invariance_test": 0.0
+      }
+    },
+    "sampled_heldout_host_groups": 2000,
+    "tolerance": 1e-12,
+    "www_host_variant_is_reported_separately_and_not_assumed_equivalent": true
+  },
+  "limitations": [
+    "Exact hostname grouping is not registrable-domain grouping and may allow sibling-subdomain leakage.",
+    "Formatting-pair evaluation uses up to 2000 deterministic held-out hostname representatives.",
+    "No numeric promotion tolerance for held-out metric changes was approved; candidate is never auto-promoted.",
+    "The Nigerian set is all legitimate and is a separate check, not generalization evidence."
+  ],
+  "main_evaluation": {
+    "candidate": {
+      "brier_score": 0.002930082589563036,
+      "calibration_bins_equal_width": [
+        {
+          "count": 27024,
+          "lower_probability": 0.0,
+          "mean_probability": 0.0071799348326176005,
+          "observed_phishing_rate": 0.004033451746595619,
+          "upper_probability": 0.1
+        },
+        {
+          "count": 86,
+          "lower_probability": 0.1,
+          "mean_probability": 0.13293110259549826,
+          "observed_phishing_rate": 0.1744186046511628,
+          "upper_probability": 0.2
+        },
+        {
+          "count": 17,
+          "lower_probability": 0.2,
+          "mean_probability": 0.2442310566100814,
+          "observed_phishing_rate": 0.5882352941176471,
+          "upper_probability": 0.3
+        },
+        {
+          "count": 9,
+          "lower_probability": 0.3,
+          "mean_probability": 0.34595161939871016,
+          "observed_phishing_rate": 0.8888888888888888,
+          "upper_probability": 0.4
+        },
+        {
+          "count": 3,
+          "lower_probability": 0.4,
+          "mean_probability": 0.44732479721019364,
+          "observed_phishing_rate": 0.6666666666666666,
+          "upper_probability": 0.5
+        },
+        {
+          "count": 12,
+          "lower_probability": 0.5,
+          "mean_probability": 0.5446655739490013,
+          "observed_phishing_rate": 0.8333333333333334,
+          "upper_probability": 0.6
+        },
+        {
+          "count": 18,
+          "lower_probability": 0.6,
+          "mean_probability": 0.6425391018829983,
+          "observed_phishing_rate": 0.9444444444444444,
+          "upper_probability": 0.7
+        },
+        {
+          "count": 23,
+          "lower_probability": 0.7,
+          "mean_probability": 0.745158158018434,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 0.8
+        },
+        {
+          "count": 79,
+          "lower_probability": 0.8,
+          "mean_probability": 0.8658378721332423,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 0.9
+        },
+        {
+          "count": 20660,
+          "lower_probability": 0.9,
+          "mean_probability": 0.9981124739058347,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 1.0
+        }
+      ],
+      "confusion_matrix_labels_0_legitimate_1_phishing": [
+        [
+          26995,
+          3
+        ],
+        [
+          144,
+          20789
+        ]
+      ],
+      "counts": {
+        "false_negative": 144,
+        "false_positive": 3,
+        "true_negative": 26995,
+        "true_positive": 20789
+      },
+      "f1": 0.9964769322947873,
+      "false_positive_rate": 0.00011111934217349434,
+      "log_loss": 0.017190097977455788,
+      "precision": 0.9998557137360523,
+      "recall": 0.9931209095686238,
+      "roc_auc": 0.998574774424055,
+      "threshold": 0.5
+    },
+    "heldout_host_groups": 43818,
+    "heldout_rows": 47931,
+    "production": {
+      "brier_score": 0.003181950583770155,
+      "calibration_bins_equal_width": [
+        {
+          "count": 27051,
+          "lower_probability": 0.0,
+          "mean_probability": 0.006914433455364168,
+          "observed_phishing_rate": 0.0043990980000739345,
+          "upper_probability": 0.1
+        },
+        {
+          "count": 61,
+          "lower_probability": 0.1,
+          "mean_probability": 0.13616192278043457,
+          "observed_phishing_rate": 0.22950819672131148,
+          "upper_probability": 0.2
+        },
+        {
+          "count": 24,
+          "lower_probability": 0.2,
+          "mean_probability": 0.24927297316786634,
+          "observed_phishing_rate": 0.5833333333333334,
+          "upper_probability": 0.3
+        },
+        {
+          "count": 27,
+          "lower_probability": 0.3,
+          "mean_probability": 0.35404846212484303,
+          "observed_phishing_rate": 0.8148148148148148,
+          "upper_probability": 0.4
+        },
+        {
+          "count": 10,
+          "lower_probability": 0.4,
+          "mean_probability": 0.4395457448695483,
+          "observed_phishing_rate": 0.8,
+          "upper_probability": 0.5
+        },
+        {
+          "count": 8,
+          "lower_probability": 0.5,
+          "mean_probability": 0.5397422697478373,
+          "observed_phishing_rate": 0.875,
+          "upper_probability": 0.6
+        },
+        {
+          "count": 11,
+          "lower_probability": 0.6,
+          "mean_probability": 0.6550212664511722,
+          "observed_phishing_rate": 0.9090909090909091,
+          "upper_probability": 0.7
+        },
+        {
+          "count": 8,
+          "lower_probability": 0.7,
+          "mean_probability": 0.7423007913765907,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 0.8
+        },
+        {
+          "count": 16,
+          "lower_probability": 0.8,
+          "mean_probability": 0.8644130131269545,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 0.9
+        },
+        {
+          "count": 20715,
+          "lower_probability": 0.9,
+          "mean_probability": 0.9994494601460449,
+          "observed_phishing_rate": 1.0,
+          "upper_probability": 1.0
+        }
+      ],
+      "confusion_matrix_labels_0_legitimate_1_phishing": [
+        [
+          26996,
+          2
+        ],
+        [
+          177,
+          20756
+        ]
+      ],
+      "counts": {
+        "false_negative": 177,
+        "false_positive": 2,
+        "true_negative": 26996,
+        "true_positive": 20756
+      },
+      "f1": 0.9957065073996786,
+      "false_positive_rate": 7.407956144899622e-05,
+      "log_loss": 0.01637400571805848,
+      "precision": 0.9999036516042008,
+      "recall": 0.9915444513447667,
+      "roc_auc": 0.9990619573346102,
+      "threshold": 0.5
+    }
+  },
+  "nigerian_separate_check": {
+    "candidate_correct": 29,
+    "candidate_probabilities": [
+      0.0014121241870720946,
+      0.003627869036966016,
+      0.00033886857161252097,
+      0.0011623027244353178,
+      0.0027040290194046525,
+      0.00159360138102296,
+      0.009369862039682809,
+      0.0005234849913031753,
+      0.00387010098563658,
+      0.002002678826613964,
+      0.0032943727915529823,
+      0.004119414114470663,
+      0.0029227246082138792,
+      0.0054575923113068855,
+      0.0038573778359794466,
+      0.01362453220024977,
+      0.006028300175766892,
+      0.009363084513084268,
+      0.004614640196584436,
+      0.007142888641429471,
+      0.0029292582684587467,
+      0.0049720396725474085,
+      0.006164274370656578,
+      0.018993912527214975,
+      0.025915109850711427,
+      0.016094561076113477,
+      0.011305323385023892,
+      0.006044904093857724,
+      0.02425538727245086,
+      0.91491197970729,
+      0.6356576709676107
+    ],
+    "expected_class_counts": {
+      "legitimate": 31,
+      "phishing": 0
+    },
+    "host_groups_reserved_out_of_main_experiment": [
+      "abu.edu.ng",
+      "accessbankplc.com",
+      "cbn.gov.ng",
+      "ecobank.com",
+      "fceogieru.edu.ng",
+      "fceyola.edu.ng",
+      "federalpolyilaro.edu.ng",
+      "fedpolyado.edu.ng",
+      "firs.gov.ng",
+      "firstbanknigeria.com",
+      "funaab.edu.ng",
+      "gtbank.com",
+      "immigration.gov.ng",
+      "kwasu.edu.ng",
+      "nationalassembly.gov.ng",
+      "nau.edu.ng",
+      "nigeria.gov.ng",
+      "nigerianstat.gov.ng",
+      "npf.gov.ng",
+      "polyibadan.edu.ng",
+      "sec.gov.ng",
+      "stanbicibtc.com",
+      "ubagroup.com",
+      "ug.nsuk.edu.ng",
+      "ui.edu.ng",
+      "unilag.edu.ng",
+      "unilorin.edu.ng",
+      "unionbankng.com",
+      "unn.edu.ng",
+      "yabatech.edu.ng",
+      "zenithbank.com"
+    ],
+    "production_correct": 29,
+    "production_probabilities": [
+      0.0018045225716546728,
+      0.005385889807818181,
+      0.002041698286842049,
+      0.002348998790890041,
+      0.0024343992129313105,
+      0.0015635328636541262,
+      0.008852936692627062,
+      0.0013466717791650882,
+      0.00327410109937683,
+      0.00362803357376223,
+      0.00366958496348619,
+      0.0044033407985572814,
+      0.0030705029182821393,
+      0.005181742092730686,
+      0.0040795032959779955,
+      0.012566736558166178,
+      0.006310230320343747,
+      0.009096479219842156,
+      0.0032601397106270164,
+      0.006927703321008183,
+      0.0028811680647721242,
+      0.0054709340502941935,
+      0.007608628532426306,
+      0.015359370915536526,
+      0.07102495066197581,
+      0.010036207782598665,
+      0.009880238967080577,
+      0.01132713652209255,
+      0.015752182488526976,
+      0.9999999998888918,
+      0.9940689358640804
+    ],
+    "raw_label_counts": {
+      "1": 31
+    },
+    "rows": 31
+  },
+  "production_artifact": {
+    "path": "artifacts\\phishing_model.joblib",
+    "sha256_after": "c056ba034fb8f6f941ee3be5a3634e0b15e7235a73f63196003ed77bc9618c6c",
+    "sha256_before": "c056ba034fb8f6f941ee3be5a3634e0b15e7235a73f63196003ed77bc9618c6c",
+    "unchanged": true
+  },
+  "promotion_status": "NOT_PROMOTED",
+  "security_regression_tests": {
+    "status": "PASS",
+    "summary": "manage.py test tests --verbosity 1: 22 tests passed; Django system check reported no issues. Run separately against unchanged production application configuration."
+  },
+  "source_dataset_sha256": "a236549cd369cd80bd478ff8e1779cbf44c58d5c3f79f7a51a1adbed7d06d1c6",
+  "split": {
+    "heldout_canonical_url_deduplication": {
+      "conflicting_canonical_urls_excluded": 0,
+      "rows_excluded_for_conflicting_canonical_labels": 0,
+      "same_label_duplicates_collapsed": 188
+    },
+    "host_overlap": 0,
+    "method": "GroupShuffleSplit by lowercased exact hostname, stripping terminal dot and leading www for grouping only",
+    "public_suffix_list_available": false,
+    "random_state": 42,
+    "registrable_domain_split": false,
+    "test_host_groups": 43818,
+    "test_rows": 47931,
+    "test_size": 0.2,
+    "train_canonical_url_deduplication": {
+      "conflicting_canonical_urls_excluded": 1,
+      "rows_excluded_for_conflicting_canonical_labels": 2,
+      "same_label_duplicates_collapsed": 711
+    },
+    "train_host_groups": 175268,
+    "train_rows": 186956
+  }
+}

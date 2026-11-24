@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Security Analysis Dashboard</title>
+    <meta
+      name="description"
+      content="Professional phishing detection and website security assessment dashboard."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="header-content">
+          <div class="brand-mark">
+            <span class="brand-dot"></span>
+            <span>Security Analysis</span>
+          </div>
+          <h1>Website Security Analysis</h1>
+          <p class="subtitle">
+            AI-Based Phishing Detection and Security review for Website URLs.
+          </p>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="input-section">
+          <div class="input-container">
+            <div class="section-heading">
+              <h2>Assess a URL</h2>
+              <p class="description">
+                Submit a website address to review its security posture,
+                suspicious indicators, and phishing risk.
+              </p>
+            </div>
+
+            <div id="url-tab">
+              <div class="form-group">
+                <label for="url-input">Enter a website URL</label>
+                <input
+                  type="text"
+                  id="url-input"
+                  placeholder="https://example.com"
+                  class="input-field"
+                  autocomplete="off"
+                />
+                <small
+                  >Example: https://www.amazon.com or
+                  suspicious-amaz0n.com</small
+                >
+              </div>
+              <button class="analyze-btn" onclick="analyzeURL()" type="button">
+                Analyze URL
+              </button>
+              <div
+                id="url-loading"
+                class="url-loading hidden"
+                role="status"
+                aria-live="polite"
+              >
+                <span class="loading-spinner" aria-hidden="true"></span>
+                Running the assessment…
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="results-section" class="results-section hidden">
+          <div class="results-container">
+            <div class="risk-score-card">
+              <div class="risk-indicator">
+                <div class="risk-circle" id="riskCircle">
+                  <span class="risk-percentage" id="riskPercentage">0</span>%
+                </div>
+                <div class="risk-level" id="riskLevel">Assessing…</div>
+                <div class="risk-message" id="riskMessage"></div>
+              </div>
+            </div>
+
+            <div class="analysis-details">
+              <div id="url-results" class="detail-card hidden">
+                <h3>URL assessment</h3>
+                <div class="detail-content">
+                  <div class="analysis-item">
+                    <span class="label">Domain</span>
+                    <span class="value" id="analyzedDomain">-</span>
+                  </div>
+                  <div class="analysis-item">
+                    <span class="label">Protocol</span>
+                    <span class="value" id="protocolStatus">-</span>
+                  </div>
+                  <div id="url-flags" class="flags-container"></div>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <h3>Detected indicators</h3>
+                <div id="risk-factors" class="risk-factors-list">
+                  <p class="no-data">No risk factors detected yet.</p>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <h3>Recommended actions</h3>
+                <div id="recommendations" class="recommendations-list">
+                  <p class="no-data">No action required at this time.</p>
+                </div>
+              </div>
+
+              <div class="detail-card">
+                <h3>Assessment breakdown</h3>
+                <div id="score-breakdown" class="score-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">ML phishing probability</span>
+                    <div class="score-bar">
+                      <div class="score-fill" id="urlScore"></div>
+                    </div>
+                    <span class="score-number" id="urlScoreNum">0/30</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Findings-based risk</span>
+                    <div class="score-bar">
+                      <div class="score-fill" id="domainScore"></div>
+                    </div>
+                    <span class="score-number" id="domainScoreNum">0/25</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Combined risk score</span>
+                    <div class="score-bar">
+                      <div class="score-fill" id="combinedScore"></div>
+                    </div>
+                    <span class="score-number" id="combinedScoreNum"
+                      >0/100</span
+                    >
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Decision threshold</span>
+                    <div class="score-bar">
+                      <div class="score-fill" id="securityScore"></div>
+                    </div>
+                    <span class="score-number" id="securityScoreNum">0/20</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="analyze-btn secondary"
+            onclick="clearResults()"
+            type="button"
+          >
+            Clear results
+          </button>
+        </section>
+
+        <section class="stats-section">
+          <div class="stats-container">
+            <h2>Assessment summary</h2>
+            <div id="stats-display" class="stats-display">
+              <div class="stat-card">
+                <div class="stat-number" id="totalScans">0</div>
+                <div class="stat-label">Total scans</div>
+              </div>
+              <div class="stat-card safe">
+                <div class="stat-number" id="safeScans">0</div>
+                <div class="stat-label">Safe</div>
+              </div>
+              <div class="stat-card warning">
+                <div class="stat-number" id="warningScans">0</div>
+                <div class="stat-label">Caution</div>
+              </div>
+              <div class="stat-card danger">
+                <div class="stat-number" id="dangerScans">0</div>
+                <div class="stat-label">High risk</div>
+              </div>
+            </div>
+            <div class="stats-chart">
+              <div class="chart-label">Analysis distribution</div>
+              <div class="bar-chart">
+                <div class="bar-item">
+                  <div class="bar-label">Safe</div>
+                  <div class="bar-container">
+                    <div
+                      class="bar-fill safe"
+                      id="barSafe"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <span class="bar-percent" id="percentSafe">0%</span>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label">Caution</div>
+                  <div class="bar-container">
+                    <div
+                      class="bar-fill warning"
+                      id="barWarning"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <span class="bar-percent" id="percentWarning">0%</span>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label">High risk</div>
+                  <div class="bar-container">
+                    <div
+                      class="bar-fill danger"
+                      id="barDanger"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <span class="bar-percent" id="percentDanger">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="history-section">
+          <div class="history-container">
+            <h2>Recent scans</h2>
+            <div class="history-controls">
+              <button
+                class="clear-history-btn"
+                onclick="clearHistory()"
+                type="button"
+              >
+                Clear history
+              </button>
+            </div>
+            <div id="history-list" class="history-list">
+              <p class="no-data">No scans yet. Start by assessing a URL.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="info-section">
+          <div class="info-container">
+            <h2>Common phishing indicators</h2>
+            <div class="info-cards">
+              <div class="info-card">
+                <h3>Suspicious URLs</h3>
+                <ul>
+                  <li>Typographical or lookalike domains</li>
+                  <li>IP addresses instead of registered domains</li>
+                  <li>Very long or confusing URL paths</li>
+                  <li>Unusual subdomain structures</li>
+                </ul>
+              </div>
+              <div class="info-card">
+                <h3>Urgent language</h3>
+                <ul>
+                  <li>“Verify your account”</li>
+                  <li>“Confirm your password”</li>
+                  <li>“Unusual activity detected”</li>
+                  <li>“Click here immediately”</li>
+                </ul>
+              </div>
+              <div class="info-card">
+                <h3>Security signals</h3>
+                <ul>
+                  <li>HTTP instead of HTTPS</li>
+                  <li>Weak or missing transport security</li>
+                  <li>Requests for credentials or payment details</li>
+                  <li>Suspicious sign-in or verification forms</li>
+                </ul>
+              </div>
+              <div class="info-card">
+                <h3>Typical targets</h3>
+                <ul>
+                  <li>Banking and financial services</li>
+                  <li>Email and social platforms</li>
+                  <li>Payments and online commerce</li>
+                  <li>Cloud account portals</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>&copy; 2026 Website Security Analysis</p>
+        <p class="disclaimer">
+          This dashboard combines model-based assessment with security findings.
+          Always verify a site using official sources before entering sensitive
+          information.
+        </p>
+      </footer>
+    </div>
+
+    <script src="script.js?v=4"></script>
+  </body>
+</html>
